@@ -211,10 +211,6 @@ function ABETA:update() -- {{{
 end
 -- }}}
 function ABETA:start() -- {{{
-	--TODO: set job delta for any required tools
-	--self.object:setJobType('CrafTec '.. self.object:getModData()["CrafTec"]["product"]);
-	--self.object:setJobDelta(0.0);
-
 	self.startTimeHours = getGameTime():getTimeOfDay()
 	self.lastCheck = self.startTimeHours;
 end

@@ -63,8 +63,13 @@ ABE.startAbeObj = function(player, recipe) -- {{{
 end
 -- }}}
 ABE.buildAbeObj = function(player, object) -- {{{
+	local character = getSpecificPlayer(player);
+
 	ABE.consumeMaterial(player, object);
-	if not luautils.walkAdj(getSpecificPlayer(player), object:getSquare()) then return end
+	if not luautils.walkAdj(character, object:getSquare()) then return end
+
+	ABE.equipItems(player, object);
+
 	local ta = ABETA:new(player, object, false);
 	ISTimedActionQueue.add(ta);
 end
@@ -154,6 +159,19 @@ ABE.storeItemInformation = function(recipe, item) -- {{{
 	table.insert(recipe.ingredientData[item:getFullType()], data);
 end
 -- }}}
+ABE.equipItems = function(player, object)
+	local player = getSpecificPlayer(player);
+	local recipe = object:getModData()["recipe"]
+
+	local primaryItem = recipe.primaryItem;
+	local secondaryItem = recipe.secondaryItem;
+
+	if (player and primaryItem and secondaryItem) then
+		print("~~~equipping now~~~")
+		luautils.equipItems(player, primaryItem, secondaryItem);
+	end
+end
+
 ABE.consumeMaterial = function(player, object) -- {{{ -- taken and butchered from ISBuildUtil
 	player = getSpecificPlayer(player);
   local inventory = player:getInventory();
