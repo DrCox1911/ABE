@@ -1,0 +1,7 @@
+IGUI_DE = {
+	IGUI_ABE_PlayerSay_NoRecipeKnowlegde = "Verdammt, ich weiß nicht wie das geht.",
+	IGUI_ABE_PlayerSay_DoneAllCurrent = "Mehr kann ich aktuell nicht bauen.",
+	IGUI_ABE_PlayerSay_NoPartsLeft = "Mir fehlen die nötigen Materialien.",
+	IGUI_ABE_PlayerSay_NoSkill = "Dazu fehlt mir das Wissen.",
+	IGUI_ABE_PlayerSay_NoReqTools = "Hm, mir fehlen wohl die nötigen Werkzeuge."
+}

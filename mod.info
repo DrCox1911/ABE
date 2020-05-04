@@ -1,0 +1,9 @@
+name=Advanced Building Environment (ABE)
+poster=poster.png
+description=This mod is a framework mod, that heavily alters the building mechanics of PZ. Forked from bcCraftTec by blindcoder.
+id=drcoxABE
+require=bcUtils
+
+modversion=0.0.1
+pzversion=40.43
+versionurl=https://raw.githubusercontent.com/blind-coder/pz-craftec/master/mod.info

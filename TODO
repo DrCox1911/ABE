@@ -1,0 +1,6 @@
+ABEobjects:
+[x] Add gamerecipe dependency = a char who wants to build further must know the recipe from a magazine
+[x] Add "use"-system for degrading delta-items like weldingrods
+[ ] Equip needed tools in primary and secondary slots
+[ ] Proper documentation
+[ ] Better logging

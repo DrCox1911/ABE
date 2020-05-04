@@ -1,0 +1,7 @@
+IGUI_EN = {
+	IGUI_ABE_PlayerSay_NoRecipeKnowlegde = "Damn, I don't know how to do this.",
+	IGUI_ABE_PlayerSay_DoneAllCurrent = "I've done all I could right now.",
+	IGUI_ABE_PlayerSay_NoPartsLeft = "I don't have the necessary parts.",
+	IGUI_ABE_PlayerSay_NoSkill = "I don't have the necessary skills.",
+	IGUI_ABE_PlayerSay_NoReqTools = "I don't have the required tools."
+}

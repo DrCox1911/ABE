@@ -1,0 +1,8 @@
+Tooltip_EN = {
+	Tooltip_ABE_Project = "Project",
+	Tooltip_ABE_NeedsTools = "Needs tools",
+	Tooltip_ABE_NeedsParts = "Needs parts",
+	Tooltip_ABE_Profession = "Profession",
+	Tooltip_ABE_Skill = "Skill",
+	Tooltip_ABE_Progress = "Progress"
+}

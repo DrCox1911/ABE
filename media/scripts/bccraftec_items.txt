@@ -1,0 +1,10 @@
+module ABE
+{
+	item Project
+	{
+		Weight = 1,
+		Type = Normal,
+		DisplayName = ABE Project,
+		Icon = ABEProject
+	}
+}

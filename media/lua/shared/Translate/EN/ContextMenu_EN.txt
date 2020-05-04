@@ -1,0 +1,5 @@
+ContextMenu_EN = {
+	ContextMenu_MainABEEntry = "Build",
+	ContextMenu_ContinueABEObj = "Continue",
+	ContextMenu_DeconstructABEObj = "Deconstruct"
+}
