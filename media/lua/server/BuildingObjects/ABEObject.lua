@@ -4,7 +4,7 @@ require "BuildingObjects/ISDoubleTileFurniture";
 require "bcUtils";
 
 -- Hotfixes
-buildUtil.setInfo = function(javaObject, ISItem) -- {{{
+buildUtil.setInfo = function(javaObject, ISItem) 
 	if  javaObject.setCanPassThrough     then  javaObject:setCanPassThrough(ISItem.canPassThrough or false);        end
 	if  javaObject.setCanBarricade       then  javaObject:setCanBarricade(ISItem.canBarricade or false);            end
 	if  javaObject.setThumpDmg           then  javaObject:setThumpDmg(ISItem.thumpDmg or false);                    end
@@ -27,8 +27,8 @@ buildUtil.setInfo = function(javaObject, ISItem) -- {{{
 		javaObject:setCanBeLockByPadlock(ISItem.canBeLockedByPadlock);
 	end
 end
--- }}}
-function ISDoubleTileFurniture:setInfo(square, north, sprite) -- {{{
+
+function ISDoubleTileFurniture:setInfo(square, north, sprite) 
 	-- add furniture to our ground
 	local thumpable = IsoThumpable.new(getCell(), square, sprite, north, self);
 	-- name of the item for the tooltip
@@ -42,8 +42,8 @@ function ISDoubleTileFurniture:setInfo(square, north, sprite) -- {{{
 
 	self.javaObject = thumpable;
 end
--- }}}
-function ISWoodenStairs:setInfo(square, level, north, sprite, luaobject) -- {{{
+
+function ISWoodenStairs:setInfo(square, level, north, sprite, luaobject) 
 	-- add stairs to our ground
 	local pillarSprite = self.pillar;
 	if north then
@@ -68,7 +68,7 @@ function ISWoodenStairs:setInfo(square, level, north, sprite, luaobject) -- {{{
 
 	self.javaObject = thumpable;
 end
--- }}}
+
 
 ABEObject = ISBuildingObject:derive("ABEObject");
 ABEObject.addWoodXpOriginal = buildUtil.addWoodXp;
@@ -79,7 +79,7 @@ buildUtil.addWoodXp = function(ISItem)
 	ABEObject.addWoodXpOriginal(ISItem);
 end
 
-function ABEObject:create(x, y, z, north, sprite) -- {{{
+function ABEObject:create(x, y, z, north, sprite) 
   local cell = getWorld():getCell();
   self.sq = cell:getGridSquare(x, y, z);
 
@@ -114,15 +114,15 @@ function ABEObject:create(x, y, z, north, sprite) -- {{{
 	--self.javaObject:setOverlaySprite("media/textures/crate/ABE_WoodenCrate_stage0.png", 1, 1, 1, 1, true);
 	--self.javaObject:setOverlaySprite("media/textures/ABE_construction.png", 1, 1, 1, 1, true);
 	self.javaObject:setOverlaySprite(self:getSprite(), 0, 1, 1, 0.6, true);
-end -- }}}
-function ABEObject:tryBuild(x, y, z) -- {{{
+end 
+function ABEObject:tryBuild(x, y, z) 
 	-- We're just a 'plan' thingie with little to no effect on the world.
 	-- Just place the item...
 	-- What could possibly go wrong?
 	self:create(x, y, z, self.north, self:getSprite());
 end
--- }}}
-function ABEObject:new(recipe) -- {{{
+
+function ABEObject:new(recipe) 
 	local o = {};
 	setmetatable(o, self);
 	self.__index = self;
@@ -150,9 +150,9 @@ function ABEObject:new(recipe) -- {{{
 	o.getSquare2Pos = ISWoodenStairs.getSquare2Pos; -- dirty hack :-(
 	o.getSquare3Pos = ISWoodenStairs.getSquare3Pos;
 	return o;
-end -- }}}
+end 
 
-function ABEObject:render(x, y, z, square) -- {{{
+function ABEObject:render(x, y, z, square) 
 	local data = {};
 	data.x = x;
 	data.y = y;
@@ -168,8 +168,8 @@ function ABEObject:render(x, y, z, square) -- {{{
 	--sprite:LoadFramesNoDirPageSimple(self.recipe.sprite)
 	--sprite:RenderGhostTile(x, y, z)
 end
--- }}}
-ABEObject.renderISDoubleFurniture = function(self, data) -- {{{
+
+ABEObject.renderISDoubleFurniture = function(self, data) 
 	local md = self.recipe;
 	if md.resultClass ~= "ISDoubleTileFurniture" then return end;
 
@@ -183,8 +183,8 @@ ABEObject.renderISDoubleFurniture = function(self, data) -- {{{
 	ISDoubleTileFurniture.render(self, data.x, data.y, data.z, data.square);
 	return;
 end
--- }}}
-ABEObject.renderISWoodenStairs = function(self, data) -- {{{
+
+ABEObject.renderISWoodenStairs = function(self, data) 
 	local md = self.recipe;
 	if md.resultClass ~= "ISWoodenStairs" then return end;
 
@@ -198,7 +198,7 @@ ABEObject.renderISWoodenStairs = function(self, data) -- {{{
 	ISWoodenStairs.render(self, data.x, data.y, data.z, data.square);
 	return;
 end
--- }}}
+
 
 LuaEventManager.AddEvent("WorldCraftingRender");
 Events.WorldCraftingRender.Add(ABEObject.renderISDoubleFurniture);

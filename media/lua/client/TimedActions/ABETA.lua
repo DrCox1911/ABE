@@ -1,7 +1,7 @@
 require "TimedActions/ISBaseTimedAction"
 
 ABETA = ISBaseTimedAction:derive("ABETA");
-ABETA.worldCraftingFinished = function(object, recipe, character, retVal) -- {{{
+ABETA.worldCraftingFinished = function(object, recipe, character, retVal) 
 	if retVal.object then return end; -- might be overriden by another event
 
 	local md = object:getModData()["recipe"];
@@ -34,8 +34,8 @@ ABETA.worldCraftingFinished = function(object, recipe, character, retVal) -- {{{
 		retVal.object = ISDoubleTileFurniture:new(md.name, images.sprite1, images.sprite2, images.northSprite1, images.northSprite2)
 	end
 end
--- }}}
-ABETA.worldCraftingObjectCreated = function(object, recipe, character, object) -- {{{
+
+ABETA.worldCraftingObjectCreated = function(object, recipe, character, object) 
 	-- Is this nice? No. Does it work? Probably.
 	-- if recipe.resultClass == "ISLightSource" then
 		-- object.javaObject:setLifeLeft(recipe.ingredientData["Base.Torch"][1].UsedDelta);
@@ -48,8 +48,8 @@ ABETA.worldCraftingObjectCreated = function(object, recipe, character, object) -
 		object.javaObject:setName("Rain Collector Barrel");
 	end
 end
--- }}}
-local copyData = function(javaObject, dst) -- {{{
+
+local copyData = function(javaObject, dst) 
 	local md = javaObject:getModData();
 	dst.name = md.recipe.name or dst.name;
 
@@ -63,8 +63,8 @@ local copyData = function(javaObject, dst) -- {{{
 		end
 	end
 end
--- }}}
-local copyModData = function(javaObject, dst) -- {{{
+
+local copyModData = function(javaObject, dst) 
 local md = javaObject:getModData();
 local dmd = dst.javaObject:getModData();
 for part,amount in pairs(md.recipe.ingredients) do
@@ -81,7 +81,7 @@ end
 
 dst:getSprite(); -- sets sprite, north, west, south and east values
 end
--- }}}
+
 local createRealObjectFromCrafTec = function(crafTec, recipe, character)--{{{
 local md = crafTec:getModData()["recipe"];
 	local retVal = {};
@@ -120,7 +120,7 @@ local md = crafTec:getModData()["recipe"];
 end
 --}}}
 
-function ABETA:isValid(square, north) -- {{{
+function ABETA:isValid(square, north) 
 	if self.stopped then return false end;
 	if not self.knowsGameRecipe then
 		self.character:Say(getText("IGUI_ABE_PlayerSay_NoRecipeKnowlegde"));
@@ -151,8 +151,8 @@ function ABETA:isValid(square, north) -- {{{
 
 	return true;
 end
--- }}}
-function ABETA:update() -- {{{
+
+function ABETA:update() 
 	if self.stopped then return end;
 
 	local timeHours = getGameTime():getTimeOfDay();
@@ -209,29 +209,29 @@ function ABETA:update() -- {{{
 
 	self:checkIfFinished();
 end
--- }}}
-function ABETA:start() -- {{{
+
+function ABETA:start() 
 	self.startTimeHours = getGameTime():getTimeOfDay()
 	self.lastCheck = self.startTimeHours;
 end
--- }}}
-function ABETA:stop() -- {{{
+
+function ABETA:stop() 
 	-- TODO: remove ourselves from the queue properly
 	ISBaseTimedAction.stop(self);
 	if self.stopped then return end;
 	self.stopped = true;
 	self:checkIfFinished();
 end
--- }}}
-function ABETA:perform() -- {{{
+
+function ABETA:perform() 
 	if not self:checkIfFinished() then
 		self.character:Say(getText("IGUI_ABE_PlayerSay_DoneAllCurrent"));
 	end
 	-- needed to remove from queue / start next.
 	ISBaseTimedAction.perform(self);
 end
--- }}}
-function ABETA:restoreItemInformation(item) -- {{{
+
+function ABETA:restoreItemInformation(item) 
 	if not self.recipe.ingredientData then self.recipe.ingredientData = {} end
 	if not self.recipe.ingredientData[item:getFullType()] then self.recipe.ingredientData[item:getFullType()]= {} end
 	local table = self.recipe.ingredientData[item:getFullType()];
@@ -305,8 +305,8 @@ function ABETA:restoreItemInformation(item) -- {{{
 	if  data.ColorBlue             and  item.setColorBlue             then  item:setColorBlue(data.ColorBlue)                        end;
 	if  data.EvolvedRecipeName     and  item.setEvolvedRecipeName     then  item:setEvolvedRecipeName(data.EvolvedRecipeName)        end;
 end
--- }}}
-function ABETA:checkIfFinished() -- {{{
+
+function ABETA:checkIfFinished() 
 	if not self.object then return end
 
 	for k,skills in pairs(self.recipe.requirements) do
@@ -346,8 +346,8 @@ function ABETA:checkIfFinished() -- {{{
 	end
 	return true;
 end
--- }}}
-function ABETA:calculateMaxTime() -- {{{
+
+function ABETA:calculateMaxTime() 
 	local retVal = 1;
 
 	for _,skill in pairs(self.canProgress) do
@@ -365,8 +365,8 @@ function ABETA:calculateMaxTime() -- {{{
 
 	return retVal;
 end
--- }}}
-function ABETA:getImages() -- {{{
+
+function ABETA:getImages() 
 	-- duplicated in ABEWorldMenu.lua
 	local recipe = self.recipe;
 	local character = self.character;
@@ -386,7 +386,7 @@ function ABETA:getImages() -- {{{
 		return retVal;
 	end
 end
--- }}}
+
 
 function ABETA:use(item)
 	local playerItem = self.character:getInventory():FindAndReturn(item);
@@ -406,7 +406,7 @@ function ABETA:use(item)
 	-- end
 end
 
-function ABETA:new(character, object, isDeconstruction) -- {{{
+function ABETA:new(character, object, isDeconstruction) 
 	local modData = object:getModData();
 	if not modData.recipe then
 		getSpecificPlayer(character):Say("BUG ABE001: object has no modData.recipe");
@@ -486,7 +486,7 @@ function ABETA:new(character, object, isDeconstruction) -- {{{
 	o.maxTime = o:calculateMaxTime();
 	return o;
 end
--- }}}
+
 
 LuaEventManager.AddEvent("OnWorldCraftingFinished");
 LuaEventManager.AddEvent("OnWorldCraftingObjectCreated");

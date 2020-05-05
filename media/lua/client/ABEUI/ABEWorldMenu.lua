@@ -4,7 +4,7 @@ require "BuildingObjects/RainCollectorBarrel"
 
 if not ABE then ABE = {} end
 --[[
--- {{{
+
 --To extend AbeObjs, just add to this object like this:
 --Simple recipe:
 --local recipe = {};
@@ -47,22 +47,22 @@ if not ABE then ABE = {} end
 --	}
 --};
 --table.insert(ABE.Recipes, recipe);
--- }}}
+
 --]] 
 
-ABE.Recipes = { -- {{{
+ABE.Recipes = { 
 
 };
--- }}}
 
-ABE.startAbeObj = function(player, recipe) -- {{{
+
+ABE.startAbeObj = function(player, recipe) 
 	local abeObj = ABEObject:new(recipe);
 
 	abeObj.player = player;
 	getCell():setDrag(abeObj, player);
 end
--- }}}
-ABE.buildAbeObj = function(player, object) -- {{{
+
+ABE.buildAbeObj = function(player, object) 
 	local character = getSpecificPlayer(player);
 
 	ABE.consumeMaterial(player, object);
@@ -73,14 +73,14 @@ ABE.buildAbeObj = function(player, object) -- {{{
 	local ta = ABETA:new(player, object, false);
 	ISTimedActionQueue.add(ta);
 end
--- }}}
-ABE.deconstructAbeObj = function(player, object) -- {{{
+
+ABE.deconstructAbeObj = function(player, object) 
 	if not luautils.walkAdj(getSpecificPlayer(player), object:getSquare()) then return end
 	local ta = ABETA:new(player, object, true);
 	ISTimedActionQueue.add(ta);
 end
--- }}}
-ABE.storeItemInformation = function(recipe, item) -- {{{
+
+ABE.storeItemInformation = function(recipe, item) 
 	-- Copout for now -- Build 34.13
 	local data = {};
 
@@ -158,7 +158,7 @@ ABE.storeItemInformation = function(recipe, item) -- {{{
 	if not recipe.ingredientData[item:getFullType()] then recipe.ingredientData[item:getFullType()]= {} end
 	table.insert(recipe.ingredientData[item:getFullType()], data);
 end
--- }}}
+
 ABE.equipItems = function(player, object)
 	local player = getSpecificPlayer(player);
 	local recipe = object:getModData()["recipe"]
@@ -172,7 +172,7 @@ ABE.equipItems = function(player, object)
 	end
 end
 
-ABE.consumeMaterial = function(player, object) -- {{{ -- taken and butchered from ISBuildUtil
+ABE.consumeMaterial = function(player, object)  -- taken and butchered from ISBuildUtil
 	player = getSpecificPlayer(player);
   local inventory = player:getInventory();
   local recipe = object:getModData()["recipe"];
@@ -237,9 +237,9 @@ ABE.consumeMaterial = function(player, object) -- {{{ -- taken and butchered fro
 	end
 	if removed then ISInventoryPage.dirtyUI() end
 end
---}}}
 
-ABE.makeTooltip = function(player, recipe) -- {{{
+
+ABE.makeTooltip = function(player, recipe) 
 	local haveMat = ISBuildMenu.haveSomethingtoBuild(player);
 	local projectTag = getText("Tooltip_ABE_Project");
 	local toolTip = ISToolTip:new();
@@ -322,9 +322,9 @@ ABE.makeTooltip = function(player, recipe) -- {{{
 
 	return toolTip;
 end
--- }}}
 
-ABE.GetItemInstance = function(type) -- {{{ taken from ISCraftingUI.lua
+
+ABE.GetItemInstance = function(type)  taken from ISCraftingUI.lua
 	if not ABE.ItemInstances then ABE.ItemInstances = {} end
 	local item = ABE.ItemInstances[type];
 	if not item then
@@ -338,9 +338,9 @@ ABE.GetItemInstance = function(type) -- {{{ taken from ISCraftingUI.lua
 	end
 	return item;
 end
--- }}}
 
-ABE.sanitizeRecipe = function(recipe) -- {{{
+
+ABE.sanitizeRecipe = function(recipe) 
 	-- do some sanity checks that modders / devs might forget / omit
 	for pkey,pval in pairs(recipe.requirements) do
 		for skey,sval in pairs(pval) do
@@ -357,9 +357,9 @@ ABE.sanitizeRecipe = function(recipe) -- {{{
 		recipe.data.modData = {};
 	end
 end
--- }}}
 
-ABE.WorldMenu = function(player, context, worldObjects) -- {{{
+
+ABE.WorldMenu = function(player, context, worldObjects) 
 -- worldObjects passed here are b0rked. Work around it.
 	local firstObject;
 	for _,o in ipairs(worldObjects) do
@@ -386,8 +386,8 @@ ABE.WorldMenu = function(player, context, worldObjects) -- {{{
 
 	ABE.doMenuRecursive(subMenu, ABE.Recipes, player);
 end
--- }}}
-ABE.doMenuRecursive = function(menu, recipes, player) -- {{{
+
+ABE.doMenuRecursive = function(menu, recipes, player) 
 	for name,recipe in pairs(recipes) do
 		--print(name)
 		--print(recipe)
@@ -407,7 +407,7 @@ ABE.doMenuRecursive = function(menu, recipes, player) -- {{{
 
 	end
 end
--- }}}
+
 Events.OnFillWorldObjectContextMenu.Add(ABE.WorldMenu);
 --Events.OnFillWorldObjectContextMenu.Remove(ISBuildMenu.doBuildMenu);
 
