@@ -4,5 +4,6 @@ Tooltip_EN = {
 	Tooltip_ABE_NeedsParts = "Needs parts",
 	Tooltip_ABE_Profession = "Profession",
 	Tooltip_ABE_Skill = "Skill",
-	Tooltip_ABE_Progress = "Progress"
+	Tooltip_ABE_Progress = "Progress",
+	Tooltip_ABE_Profession_any = "any"
 }
