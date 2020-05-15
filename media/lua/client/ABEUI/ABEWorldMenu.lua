@@ -324,7 +324,7 @@ ABE.makeTooltip = function(player, recipe)
 end
 
 
-ABE.GetItemInstance = function(type)  taken from ISCraftingUI.lua
+ABE.GetItemInstance = function(type)  --taken from ISCraftingUI.lua
 	if not ABE.ItemInstances then ABE.ItemInstances = {} end
 	local item = ABE.ItemInstances[type];
 	if not item then

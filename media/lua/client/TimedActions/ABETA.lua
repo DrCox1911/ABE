@@ -32,6 +32,8 @@ ABETA.worldCraftingFinished = function(object, recipe, character, retVal)
 		retVal.object = ISWoodenStairs:new(images.sprite1, images.sprite2, images.sprite3, images.northSprite1, images.northSprite2, images.northSprite3, images.pillar, images.pillarNorth)
 	elseif md.resultClass == "ISDoubleTileFurniture" then
 		retVal.object = ISDoubleTileFurniture:new(md.name, images.sprite1, images.sprite2, images.northSprite1, images.northSprite2)
+	elseif md.resultClass == "ISDoubleDoor" then
+		retVal.object = ISDoubleDoor:new(md.spriteMulti, md.spriteIndex)
 	end
 end
 
@@ -89,11 +91,14 @@ local md = crafTec:getModData()["recipe"];
 	triggerEvent("OnWorldCraftingFinished", crafTec, recipe, character, retVal);
 
 	o = retVal.object;
-	local images = ABE.getImages(getSpecificPlayer(character), recipe);
-	o:setSprite(images.west);
-	o:setNorthSprite(images.north);
-	o:setEastSprite(images.east);
-	o:setSouthSprite(images.south);
+
+	if (recipe.resultClass ~= "ISDoubleDoor") then
+		local images = ABE.getImages(getSpecificPlayer(character), recipe);
+		o:setSprite(images.west);
+		o:setNorthSprite(images.north);
+		o:setEastSprite(images.east);
+		o:setSouthSprite(images.south);
+	end
 
 	local x = crafTec:getSquare():getX();
 	local y = crafTec:getSquare():getY();
@@ -109,7 +114,7 @@ local md = crafTec:getModData()["recipe"];
 	o.sprite = o:getSprite(); -- copyData sets nSprite (added in ABEObject:create), so this sets .sprite and the north, east, south and west options
 
 	local saveFunc = buildUtil.consumeMaterial;
-	buildUtil.consumeMaterial = function() end
+	buildUtil.consumeMaterial = function() return {} end
 	o:create(x, y, z, o.north, o.sprite);
 	buildUtil.consumeMaterial = saveFunc;
 
@@ -201,9 +206,16 @@ function ABETA:update()
 							end
 						end
 					end
-					-- #todo: ABETA:use call, usage only based on current progress
 				end
 			end
+		end
+
+		-- sound stuff
+		local sound = self.recipe.playSound
+		if (sound) then
+			self.soundPlaying = self.character:getEmitter():playSound(sound);
+		else
+			self.soundPlaying = self.character:getEmitter():playSound("Hammering");
 		end
 	end
 
@@ -217,6 +229,9 @@ end
 
 function ABETA:stop() 
 	-- TODO: remove ourselves from the queue properly
+	if (self.soundPlaying) then
+		self.character:getEmitter():stopSound(self.soundPlaying);
+	end
 	ISBaseTimedAction.stop(self);
 	if self.stopped then return end;
 	self.stopped = true;

@@ -1,6 +1,7 @@
 require "BuildingObjects/ISBuildUtil";
 require "BuildingObjects/ISWoodenWall";
 require "BuildingObjects/ISDoubleTileFurniture";
+require "BuildingObjects/ISDoubleDoor";
 require "bcUtils";
 
 -- Hotfixes
@@ -147,8 +148,29 @@ function ABEObject:new(recipe)
 	o.isValid = _G[recipe.resultClass].isValid;
 	o.noNeedHammer = true; -- do not need a hammer to _start_, but maybe later to _build_
 
-	o.getSquare2Pos = ISWoodenStairs.getSquare2Pos; -- dirty hack :-(
-	o.getSquare3Pos = ISWoodenStairs.getSquare3Pos;
+	if (o.recipe.resultClass == "ISDoubleTileFurniture") then
+		o.getSquare2Pos = ISDoubleTileFurniture.getSquare2Pos;
+	elseif (o.recipe.resultClass == "ISDoubleDoor") then
+		local sprite = o.recipe.spriteMulti;
+		local spriteIndex = o.recipe.spriteIndex;
+		o.getSquare2Pos = ISDoubleDoor.getSquare2Pos;
+		o.getSquare3Pos = ISDoubleDoor.getSquare3Pos;
+		o.getSquare4Pos = ISDoubleDoor.getSquare4Pos;
+
+		o.partExists = ISDoubleDoor.partExists;
+
+		o:setSprite(sprite .. spriteIndex);
+		o.sprite2 = sprite .. spriteIndex+1;
+		o.sprite3 = sprite .. spriteIndex-8;
+		o.sprite4 = sprite .. spriteIndex-7;
+		o.northSprite = sprite .. spriteIndex-6;
+		o.northSprite2 = sprite .. spriteIndex-5;
+		o.northSprite3 = sprite .. spriteIndex+2;
+		o.northSprite4 = sprite .. spriteIndex+3;
+	else
+		o.getSquare2Pos = ISWoodenStairs.getSquare2Pos; -- dirty hack :-(
+		o.getSquare3Pos = ISWoodenStairs.getSquare3Pos;
+	end
 	return o;
 end 
 
@@ -199,7 +221,24 @@ ABEObject.renderISWoodenStairs = function(self, data)
 	return;
 end
 
+ABEObject.renderISDoubleDoor = function(self, data)
+	local md = self.recipe;
+	if md.resultClass ~= "ISDoubleDoor" then return end;
+
+	local images = ABE.getImages(getPlayer(), self.recipe);
+	for k,v in pairs(images) do
+		if not self[k] then
+			self[k] = v
+		end
+	end
+	data.done = true;
+	ISDoubleDoor.render(self, data.x, data.y, data.z, data.square);
+	return;
+end
+
+
 
 LuaEventManager.AddEvent("WorldCraftingRender");
 Events.WorldCraftingRender.Add(ABEObject.renderISDoubleFurniture);
 Events.WorldCraftingRender.Add(ABEObject.renderISWoodenStairs);
+Events.WorldCraftingRender.Add(ABEObject.renderISDoubleDoor);
