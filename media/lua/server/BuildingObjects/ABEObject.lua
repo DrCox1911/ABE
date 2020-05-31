@@ -112,8 +112,6 @@ function ABEObject:create(x, y, z, north, sprite)
 		end
 	end
 
-	--self.javaObject:setOverlaySprite("media/textures/crate/ABE_WoodenCrate_stage0.png", 1, 1, 1, 1, true);
-	--self.javaObject:setOverlaySprite("media/textures/ABE_construction.png", 1, 1, 1, 1, true);
 	self.javaObject:setOverlaySprite(self:getSprite(), 0, 1, 1, 0.6, true);
 end 
 function ABEObject:tryBuild(x, y, z) 
